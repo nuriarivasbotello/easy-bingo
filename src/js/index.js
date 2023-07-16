@@ -15,14 +15,17 @@ const numbersBingo = document.getElementById('numbers');
 const buttonElement = document.getElementById('button');
 let userPlay;
 let pcPlay;
-const randomNumberArray = [];
+const hundredNumbersArray = [];
 const randomNumber = () => {
   const randomNumber = Math.floor(Math.random() * 99 + 1);
-  console.log(randomNumber);
+  return hundredNumbersArray;
 };
+const fifteenArray = [];
 const fifteenNumbers = () => {
-  for (let i = 0; (i = 15); i++) {
-    const fifteenNumbersRandom = Math.floor(Math.random(i) * 15);
+  for (let i = 0; i < 15; i++) {
+    const fifteenNumbersRandom = Math.floor(Math.random() * 15);
+    fifteenArray.push(fifteenNumbersRandom);
+    if(fifteenArray.filter)
   }
+  return fifteenArray;
 };
-fifteenNumbers();
