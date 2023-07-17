@@ -3,7 +3,10 @@
 @use 'config/variables.scss';
 @use 'blocks/body.scss';
 @use 'blocks/main.scss';
+@use 'blocks/cardboards.scss';
 @use 'blocks/bingo.scss';
-@use 'blocks/user.scss';
-@use 'blocks/pc.scss';
+@use 'blocks/header.scss';
+@use 'blocks/titles.scss';
+@use 'blocks/texts.scss';
 @use 'blocks/button.scss';
+@use 'blocks/counter.scss';
