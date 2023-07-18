@@ -88,7 +88,7 @@ const getRandomNumber = () => {
   const randomPosition = Math.floor(Math.random() * array99numbers.length);
   const randomNumber = array99numbers[randomPosition];
   array99numbers = array99numbers.filter(number => number !== randomNumber);
-  counterElement.textContent = `Number: ${randomNumber}`;
+  counterElement.textContent = `${randomNumber}`;
   paintedNumbers(randomNumber);
 };
 
