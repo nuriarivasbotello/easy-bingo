@@ -10,21 +10,16 @@
     grid-template-columns: 70px 70px 70px 70px 70px;
     grid-template-rows: 70px 70px 70px;
     justify-content: center;
+    padding: 0.5rem;
     align-items: center;
     text-align: center;
     font-size: 40px;
     border: 8px solid var( --color-cardboard);
-   
-    padding: 0.5rem;
-    
-
-
 }
 
 .cardboard-number{
     padding: 0.5rem;
     border: 2px solid var(--color-cardboard);
-    
     margin: 2px;
 }
 
@@ -32,6 +27,6 @@
     background-color: var(--color-cardboard);
     color: var(--color-white);
     border: 1px solid var(--color-white);
-    border-radius: 8px;
+    
     margin: 2px;
 }

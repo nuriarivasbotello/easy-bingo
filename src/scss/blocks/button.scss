@@ -1,4 +1,13 @@
 .button-start{
     padding: 15px 30px;
-    border-radius: 50px;
+    border:1px solid,rgb(244, 182, 255);
+    
 }
+.button--disabled {
+  background-color: none;
+    color: black;
+  }
+  
+  .hidden {
+    display: none;
+  }

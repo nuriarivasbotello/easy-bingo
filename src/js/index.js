@@ -10,15 +10,16 @@ import '../scss/styles.scss';
 // Buscar en los cartones de los jugadores coincidencias para marcarlo.
 // Cada vez que busquemos coincidencias comprobar si ya están todos marcados o no, si ya se han marcado todos, el juego termina y gana el jugador que haya completado el cartón antes.
 const buttonStart = document.getElementById('button-start');
-const mainElement = document.getElementById('main');
-const numbersElement = document.getElementById('numbers');
-const numberElement = document.getElementById('number');
-const cardboardsElement = document.getElementById('cardboards');
+const buttonRestart = document.getElementById('button-again');
 const cardboardUser = document.getElementById('cardboard-user');
 const cardboardPc = document.getElementById('cardboard-pc');
 const counterElement = document.getElementById('counter');
+const playersUser = document.getElementById('players-user');
+const playersPc = document.getElementById('players-pc');
 
 const randomNumbers = Math.floor(Math.random() * 99);
+
+let interval;
 
 const getNumbersToFillBoard = () => {
   let arrayNumbersCardboard = [];
@@ -38,7 +39,11 @@ const cardboards = board => {
   numbersBoard.forEach(number => {
     const numberCardboard = document.createElement('p');
     numberCardboard.textContent = number;
-    numberCardboard.dataset.number = number;
+    if (board.id === 'cardboard-user') {
+      numberCardboard.dataset.number = `player-${number}`;
+    } else {
+      numberCardboard.dataset.number = `pc-${number}`;
+    }
     numberCardboard.classList.add('cardboard-number');
 
     board.append(numberCardboard);
@@ -52,18 +57,31 @@ let array99numbers = Array(99)
   .fill()
   .map((_, index) => index + 1);
 
+const painteNumbersCardboards = randomNumber => {
+  const selectNumberCardboardUser = cardboardUser.querySelector(
+    `[data-number="player-${randomNumber}"]`
+  );
+
+  if (selectNumberCardboardUser) {
+    selectNumberCardboardUser.classList.add('number-correct');
+  }
+  const selectNumberCardboardPc = cardboardPc.querySelector(
+    `[data-number="pc-${randomNumber}"]`
+  );
+
+  if (selectNumberCardboardPc) {
+    selectNumberCardboardPc.classList.add('number-correct');
+  }
+
+  whoWins();
+};
+
 const paintedNumbers = randomNumber => {
   const selectedNumber = document.querySelector(
     `[data-number="${randomNumber}"]`
   );
   selectedNumber.classList.add('painted-number');
-};
-
-const paintedNumbersCardboards = randomNumber => {
-  const selectNumberCardboard = cardboardsElement.querySelector(
-    `[data-number="${randomNumber}"]`
-  );
-  selectNumberCardboard.classList.add('number-correct');
+  painteNumbersCardboards(randomNumber);
 };
 
 const getRandomNumber = () => {
@@ -72,7 +90,62 @@ const getRandomNumber = () => {
   array99numbers = array99numbers.filter(number => number !== randomNumber);
   counterElement.textContent = `Number: ${randomNumber}`;
   paintedNumbers(randomNumber);
-  paintedNumbersCardboards(randomNumber);
 };
 
-setInterval(getRandomNumber, 400);
+const whoWins = () => {
+  const playerNumbersCorrect =
+    cardboardUser.querySelectorAll('.number-correct');
+  const pcNumbersCorrect = cardboardPc.querySelectorAll('.number-correct');
+  if (playerNumbersCorrect.length === 15) {
+    playersUser.textContent = 'YOU WIN!';
+    playersPc.textContent = 'SO CLOSE :(';
+    clearInterval(interval);
+  }
+  if (pcNumbersCorrect.length === 15) {
+    playersPc.textContent = 'I WIN!';
+    playersUser.textContent = 'Sorry, try again';
+    clearInterval(interval);
+  }
+  buttonStart.classList.add('hidden');
+  buttonRestart.classList.remove('hidden');
+  buttonRestart.classList.add('button-start');
+};
+
+const startGame = () => {
+  clearInterval(interval);
+  interval = setInterval(getRandomNumber, 200);
+};
+
+buttonStart.addEventListener('click', () => {
+  if (interval) return;
+  buttonStart.disabled = true;
+  startGame();
+});
+
+const restartGame = () => {
+  const classlistRemoveBingo = document.querySelectorAll('.painted-number');
+
+  classlistRemoveBingo.forEach(element => {
+    element.classList.remove('painted-number');
+  });
+
+  const classlistRemoveCardboards =
+    document.querySelectorAll('.number-correct');
+
+  classlistRemoveCardboards.forEach(element => {
+    element.classList.remove('number-correct');
+  });
+
+  playersUser.textContent = 'THIS IS YOURS';
+  playersPc.textContent = 'THIS IS MINE';
+
+  array99numbers = Array(99)
+    .fill()
+    .map((_, index) => index + 1);
+
+  startGame();
+};
+
+buttonRestart.addEventListener('click', () => {
+  restartGame();
+});
